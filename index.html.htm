@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ms">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3 SIDDIQ ELITE | AMS</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <script type="module">
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBV5pPnUoZ5__ZDnpqutonr0xD8gI1Za7o",
+            authDomain: "semii2go.firebaseapp.com",
+            projectId: "semii2go",
+            storageBucket: "semii2go.firebasestorage.app",
+            messagingSenderId: "331630821647",
+            appId: "1:331630821647:web:1fb749102956bc19607e7a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        window.handleLogin = async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector("button");
+            const email = e.target.querySelector("input[type=email]").value;
+            const password = e.target.querySelector("input[type=password]").value;
+
+            btn.innerHTML = "MENGESAHKAN IDENTITI...";
+            btn.disabled = true;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+
+                // OPTIONAL: buang alert, nampak lebih premium
+                window.location.href = "dashboard.html";
+            } catch (error) {
+                alert("RALAT: Emel atau kata laluan tidak sah.");
+                btn.innerHTML = "AKSES SISTEM";
+                btn.disabled = false;
+            }
+        };
+
+        onAuthStateChanged(auth, (user) => {
+            const loader = document.getElementById("loading-screen");
+
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 800);
+
+            if (user) {
+                // User dah login
+                window.location.replace("dashboard.html");
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fdfbf7;
+            /* Warna Putih Cream */
+            min-height: 100vh;
+            overflow-y: auto;
+            /* Benarkan skrol */
+        }
+
+        /* Latar Belakang Beranimasi */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(120deg, #fdfbf7 0%, #f5f0e6 100%);
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0) 70%);
+            border-radius: 50%;
+            animation: move 20s infinite alternate;
+        }
+
+        @keyframes move {
+            from {
+                transform: translate(-10%, -10%);
+            }
+
+            to {
+                transform: translate(20%, 20%);
+            }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+        }
+
+        .gold-text {
+            background: linear-gradient(to right, #bf953f, #aa771c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        input:focus {
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+            border-color: #D4AF37 !important;
+        }
+
+        /* Memastikan kandungan muat pada skrin kecil */
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="animated-bg">
+        <div class="blob" style="top: -100px; left: -100px;"></div>
+        <div class="blob" style="bottom: -100px; right: -100px; animation-delay: -5s;"></div>
+    </div>
+
+    <div id="loading-screen" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="w-12 h-12 border-4 border-gray-100 border-t-[#D4AF37] rounded-full animate-spin"></div>
+        <p class="mt-6 text-[10px] font-bold uppercase tracking-[0.4em] text-gray-400">Sistem Sedang Dimuatkan...</p>
+    </div>
+
+    <div class="wrapper">
+
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+            <img src="https://i.postimg.cc/FsL0XknW/SMKMII-LGO-removebg-preview.png" alt="SMKMII" class="h-14">
+            <div class="hidden md:block h-10 w-[1px] bg-gray-300"></div>
+            <img src="https://i.postimg.cc/xCcWgqmx/photo-6057413719148399989-y-removebg-preview.png" alt="3Siddiq" class="h-16">
+        </div>
+
+        <div class="w-full max-w-[480px] glass-card p-8 md:p-12 rounded-[2.5rem] mb-10">
+            <div class="text-center mb-10">
+                <p class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-2">Portal Pengurusan Sistem Kehdiran</p>
+                <h1 class="text-3xl font-extrabold tracking-tight text-slate-800">3 SIDDIQ <span class="gold-text uppercase">Elite</span></h1>
+                <div class="w-12 h-[2px] bg-[#D4AF37] mx-auto mt-4 opacity-50"></div>
+            </div>
+
+            <form onsubmit="handleLogin(event)" class="space-y-6">
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">E-mel Pentadbir</label>
+                    <input type="email" placeholder="admin@sekolah.my" required class="w-full px-6 py-4 rounded-2xl bg-white/60 border border-gray-200 mt-2 outline-none transition-all text-sm">
+                </div>
+
+                <div>
+                    <label class="text-[10px] font-bold uppercase tracking-widest text-slate-500 ml-1">Kata Laluan</label>
+                    <input type="password" placeholder="••••••••" required class="w-full px-6 py-4 rounded-2xl bg-white/60 border border-gray-200 mt-2 outline-none transition-all text-sm tracking-widest">
+                </div>
+
+                <button class="w-full bg-slate-900 text-white py-5 rounded-2xl font-bold uppercase text-xs tracking-[0.2em] shadow-xl hover:bg-black transition-all active:scale-[0.98] mt-4">
+                    Akses Sistem
+                </button>
+            </form>
+
+            <div class="mt-12 pt-8 border-t border-gray-100 text-center">
+                <p class="text-[9px] text-gray-400 uppercase tracking-widest leading-relaxed">
+                    Sistem Pengurusan Kehadiran Pintar<br>
+                    <span class="font-bold text-slate-500">SMK MEMBAKUT II © 2026</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="text-center pb-10">
+            <p class="text-[10px] font-bold text-[#D4AF37] uppercase tracking-[0.5em]">Class of Excellence</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
