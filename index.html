@@ -31,8 +31,16 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
 
+        // 🔐 FLAG PENTING
+        let redirecting = false;
+
+        /* =========================
+           LOGIN HANDLER
+        ========================= */
         window.handleLogin = async (e) => {
             e.preventDefault();
+            if (redirecting) return;
+
             const btn = e.target.querySelector("button");
             const email = e.target.querySelector("input[type=email]").value;
             const password = e.target.querySelector("input[type=password]").value;
@@ -41,31 +49,42 @@
             btn.disabled = true;
 
             try {
+                redirecting = true;
                 await signInWithEmailAndPassword(auth, email, password);
 
-                // OPTIONAL: buang alert, nampak lebih premium
-                window.location.href = "https://smkmiivault.github.io/3SAMS-PanelUtama/";
-            } catch (error) {
+                window.location.replace(
+                    "https://smkmiivault.github.io/3SAMS-PanelUtama/"
+                );
+            } catch (err) {
+                redirecting = false;
                 alert("RALAT: Emel atau kata laluan tidak sah.");
                 btn.innerHTML = "AKSES SISTEM";
                 btn.disabled = false;
             }
         };
 
+        /* =========================
+           AUTO LOGIN CHECK
+        ========================= */
         onAuthStateChanged(auth, (user) => {
             const loader = document.getElementById("loading-screen");
 
             setTimeout(() => {
-                loader.style.opacity = '0';
-                setTimeout(() => loader.style.display = 'none', 500);
-            }, 800);
+                loader.style.opacity = "0";
+                setTimeout(() => loader.style.display = "none", 500);
+            }, 700);
 
-            if (user) {
-                // User dah login
-                window.location.replace("https://smkmiivault.github.io/3SAMS-PanelUtama/");
+            // ✅ AUTO REDIRECT JIKA SESSION WUJUD
+            if (user && !redirecting) {
+                redirecting = true;
+                window.location.replace(
+                    "https://smkmiivault.github.io/3SAMS-PanelUtama/"
+                );
             }
         });
     </script>
+
+
 
     <style>
         body {
