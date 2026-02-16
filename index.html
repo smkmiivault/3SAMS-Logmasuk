@@ -2,9 +2,12 @@
 <html lang="ms">
 
 <head>
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
     <link rel="manifest" href="site.webmanifest">
 
     <meta charset="UTF-8" />
@@ -116,13 +119,25 @@
         .hero-video-container {
             position: relative;
             width: 100%;
-            height: 70vh;
-            background: #f8f9fa;
-            border-radius: 0 0 60px 60px;
+            height: 100vh;
+            background: #000;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        }
+
+        /* VIDEO PERFECT CENTER NO CROP */
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            max-width: 100%;
+            max-height: 100%;
+
+            width: auto;
+            height: auto;
+
+            object-fit: contain;
         }
 
         .hero {
@@ -253,17 +268,9 @@
     <!-- HERO SECTION -->
     <main>
         <section class="hero-video-container">
-            <div class="hero-media">
-                <video autoplay muted loop playsinline>
-                    <source src="3samsvidassets.mp4" type="video/mp4">
-            </div>
+            <video class="hero-video" autoplay muted loop playsinline>
+                <source src="3samsvidassets.mp4" type="video/mp4">
             </video>
-
-            <div class="hero-content">
-                <h1>Cloud that feels alive.</h1>
-                <p>Fast. Private. Everywhere.</p>
-            </div>
-            <div class="video-placeholder"></div>
         </section>
 
         <!-- INFO SECTION -->
